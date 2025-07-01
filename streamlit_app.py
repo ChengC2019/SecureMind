@@ -1,22 +1,33 @@
 import streamlit as st
 from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+USER_AVATAR = "👤"
+BOT_AVATAR = "🤖"
 
 # Show title and description.
-st.title("💬 Chatbot")
+uah_logo_url = "https://www.uah.edu/images/administrative/communications/logo/uah-logo.svg"
+
+# Create two columns: one for the logo, one for the title
+col1, col2 = st.columns([1, 6])  # Adjust ratio to size preference
+
+with col1:
+    st.image(uah_logo_url, width=100)
+with col2:
+    st.title("Cyber Security Assistant")
 st.write(
-    "This is a simple chatbot that uses OpenAI's GPT-3.5 model to generate responses. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
+    "Please feel free to ask any questions about the cyber security related questions."
+    "Please ask and answer topic-related or factual questions. "
 )
 
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
+openai_api_key = st.secrets["openai"]["api_key"]
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
-
     # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
 
